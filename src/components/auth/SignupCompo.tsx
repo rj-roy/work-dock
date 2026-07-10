@@ -134,6 +134,7 @@ export default function SignupCompo() {
                             height={200}
                             width={200}
                             loading='eager'
+                            className='rounded-2xl'
                         />
                     </div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -381,7 +382,7 @@ export default function SignupCompo() {
                 {/* Footer */}
                 <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
                     Already have an account?{' '}
-                    <Link href="/auth?login=true" className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
+                    <Link href={`/auth/signin?redirect=${redirectTo || '/'}`} className="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
                         Log in
                     </Link>
                 </p>

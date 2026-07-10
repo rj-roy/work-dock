@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { User, Menu, X } from 'lucide-react';
+import { User, Menu, X, User2, Grid2X2 } from 'lucide-react';
 import ThemeSwitch from '../ui/ThemeSwitch';
 import Image from 'next/image';
 import { authClient } from '@/lib/auth-client';
@@ -13,10 +13,10 @@ export default function NavBar() {
     console.log(session);
 
     const navLinks: { name: string; href: string }[] = [
-        { name: 'Menu', href: '/menu' },
-        { name: 'Reservations', href: '/reservations' },
-        { name: 'About', href: '/about' },
-        { name: 'Contact', href: '/contact' },
+        { name: 'Find Space', href: '/find-space' },
+        { name: 'Categories', href: '/categories' },
+        { name: 'How it Works', href: '/about' },
+        { name: 'Host a Space', href: '/host-a-space' },
     ];
 
     const handleLogout = async () => {
@@ -27,13 +27,13 @@ export default function NavBar() {
 
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-neutral/20 bg-tertiary dark:bg-secondary dark:border-neutral/30 transition-colors duration-300">
+        <nav className="sticky top-0 z-50 w-full shadow-xl transition-colors duration-300">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="shrink-0">
                         <h1 className="text-3xl font-serif font-bold text-primary dark:text-primary">
-                            Zestaro
+                            Work Dock
                         </h1>
                     </Link>
 
@@ -43,22 +43,22 @@ export default function NavBar() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className="text-secondary dark:text-tertiary hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-primary transition-all duration-200"
+                                className=" hover:text-primary dark:hover:text-primary px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-primary transition-all duration-200"
                             >
                                 {link.name}
                             </Link>
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-2 relative">
+                    <div className="flex items-center gap-3 relative">
                         <div className='hidden md:block'>
                             <ThemeSwitch />
                         </div>
 
                         {
                             !session ?
-                                <Link href={'/auth?login=true'} className='bg-secondary dark:bg-primary/70 hover:bg-primary rounded-2xl text-md p-1 px-3 flex justify-center items-center'>
-                                    Login
+                                <Link href={'/auth/signup/'} className='text-white dark:text-black font-bold bg-secondary dark:bg-primary/70 hover:bg-primary rounded-sm text-md p-2 px-4 flex justify-center items-center'>
+                                    Get Started
                                 </Link>
                                 : <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="p-2 rounded-lg text-secondary dark:text-tertiary hover:bg-neutral/10 dark:hover:bg-neutral/20 transition-colors">
                                     <div className='flex justify-center items-center gap-2'>
@@ -116,9 +116,7 @@ export default function NavBar() {
                                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                         onClick={() => setUserMenuOpen(false)}
                                     >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                        </svg>
+                                        <Grid2X2/>
                                         Dashboard
                                     </Link>
                                     <Link
@@ -126,9 +124,7 @@ export default function NavBar() {
                                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                         onClick={() => setUserMenuOpen(false)}
                                     >
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
+                                        <User2 size={20}/>
                                         Profile
                                     </Link>
                                 </div>
