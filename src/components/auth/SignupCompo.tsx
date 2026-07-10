@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Monitor, User, Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { authClient } from '@/lib/auth-client';
 
 interface FormData {
     fullName: string;
@@ -15,11 +16,11 @@ interface FormData {
 };
 
 interface FormErrors {
-  fullName?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  agreeToTerms?: string;
+    fullName?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+    agreeToTerms?: string;
 }
 
 export default function SignupCompo() {
@@ -79,11 +80,25 @@ export default function SignupCompo() {
         setIsLoading(true);
 
         try {
-            // Simulate API call
-            toast.success('Successfully created! Redirecting...')
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            console.log('Registration data:', { role, ...formData });
-            router.push(redirectTo);
+            const payload = {
+                name: formData.fullName,
+                email: formData.email,
+                password: formData.password,
+                role,
+            } as Parameters<typeof authClient.signUp.email>[0];
+
+            const { data, error } = await authClient.signUp.email(payload);
+
+            if (error) {
+                toast.error(error?.message ?? "Something went wrong! Please try again.")
+                return;
+            } else if (data) {
+                toast.success('Successfully created! Redirecting...')
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                console.log('Registration data:', { role, ...formData });
+                router.push(redirectTo);
+            };
+
         } catch (error) {
             console.error('Registration error:', error);
             toast.error('Something went wrong! please try again.')
@@ -98,15 +113,16 @@ export default function SignupCompo() {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
-        // Clear error when user starts typing
-        if (errors[name as keyof FormData]) {
-            setErrors(prev => ({ ...prev, [name]: undefined }));
+
+        const fieldName = name as keyof FormErrors;
+        if (errors[fieldName]) {
+            setErrors(prev => ({ ...prev, [fieldName]: undefined }));
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 transition-colors duration-300">
-            <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-300">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 py-12 transition-colors duration-300">
+            <div className="w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-300">
                 {/* Header */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl mb-4">
@@ -126,8 +142,8 @@ export default function SignupCompo() {
                         type="button"
                         onClick={() => setRole('member')}
                         className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${role === 'member'
-                                ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
-                                : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                            ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
+                            : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                             }`}
                     >
                         <User className="w-5 h-5" />
@@ -137,8 +153,8 @@ export default function SignupCompo() {
                         type="button"
                         onClick={() => setRole('host')}
                         className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 transition-all duration-200 ${role === 'host'
-                                ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
-                                : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                            ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
+                            : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                             }`}
                     >
                         <Building2 className="w-5 h-5" />
@@ -163,8 +179,8 @@ export default function SignupCompo() {
                                 onChange={handleChange}
                                 placeholder="Enter your full name"
                                 className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors ${errors.fullName
-                                        ? 'border-red-500 dark:border-red-500'
-                                        : 'border-gray-200 dark:border-gray-600'
+                                    ? 'border-red-500 dark:border-red-500'
+                                    : 'border-gray-200 dark:border-gray-600'
                                     } text-gray-900 dark:text-white placeholder-gray-400`}
                             />
                         </div>
@@ -188,8 +204,8 @@ export default function SignupCompo() {
                                 onChange={handleChange}
                                 placeholder="name@company.com"
                                 className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-700 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors ${errors.email
-                                        ? 'border-red-500 dark:border-red-500'
-                                        : 'border-gray-200 dark:border-gray-600'
+                                    ? 'border-red-500 dark:border-red-500'
+                                    : 'border-gray-200 dark:border-gray-600'
                                     } text-gray-900 dark:text-white placeholder-gray-400`}
                             />
                         </div>
@@ -214,8 +230,8 @@ export default function SignupCompo() {
                                     onChange={handleChange}
                                     placeholder="••••••••"
                                     className={`w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors ${errors.password
-                                            ? 'border-red-500 dark:border-red-500'
-                                            : 'border-gray-200 dark:border-gray-600'
+                                        ? 'border-red-500 dark:border-red-500'
+                                        : 'border-gray-200 dark:border-gray-600'
                                         } text-gray-900 dark:text-white placeholder-gray-400`}
                                 />
                                 <button
@@ -245,8 +261,8 @@ export default function SignupCompo() {
                                     onChange={handleChange}
                                     placeholder="••••••••"
                                     className={`w-full pl-10 pr-10 py-2.5 bg-gray-50 dark:bg-gray-700 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-colors ${errors.confirmPassword
-                                            ? 'border-red-500 dark:border-red-500'
-                                            : 'border-gray-200 dark:border-gray-600'
+                                        ? 'border-red-500 dark:border-red-500'
+                                        : 'border-gray-200 dark:border-gray-600'
                                         } text-gray-900 dark:text-white placeholder-gray-400`}
                                 />
                                 <button
