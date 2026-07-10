@@ -10,7 +10,6 @@ export default function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
     const { data: session } = authClient.useSession();
-    console.log(session);
 
     const navLinks: { name: string; href: string }[] = [
         { name: 'Find Space', href: '/find-space' },
