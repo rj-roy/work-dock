@@ -1,11 +1,12 @@
 'use client';
-
 import { useState } from 'react';
 import Link from 'next/link';
-import { Monitor, User, Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { User, Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { authClient } from '@/lib/auth-client';
+import logo from '@/assets/img/logo.png'
+import Image from 'next/image';
 
 interface FormData {
     fullName: string;
@@ -85,6 +86,7 @@ export default function SignupCompo() {
                 email: formData.email,
                 password: formData.password,
                 role,
+                plan: `${role}_free`,
             } as Parameters<typeof authClient.signUp.email>[0];
 
             const { data, error } = await authClient.signUp.email(payload);
@@ -126,7 +128,13 @@ export default function SignupCompo() {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl mb-4">
-                        <Monitor className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+                        <Image
+                            src={logo}
+                            alt='logo'
+                            height={200}
+                            width={200}
+                            loading='eager'
+                        />
                     </div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                         Create your account
