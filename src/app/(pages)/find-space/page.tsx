@@ -1,10 +1,15 @@
 import AsideNav from "@/components/pages/findSpace/AsideNav";
+import SearchBar from "@/components/pages/findSpace/SearchBar";
 import { getDataByCollection } from "@/lib/api/getData";
 
 type Props = {
     searchParams: Promise<{
+        search?: string;
+        category?: string;
         page?: string;
-        category: string;
+        city?: string;
+        capacity?: string;
+        priceRange?: string;
     }>;
 };
 
@@ -20,15 +25,13 @@ const FindSpaces = async ({ searchParams }: Props) => {
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3">
             <AsideNav activeCategory={activeCategory} />
             <div className="min-w-0 min-h-screen gap-3 px-4 sm:px-6 lg:px-2 py-8">
-                {/* <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
-                    <MenuHeader category={activeCategory} />
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
+                    {/* <MenuHeader category={activeCategory} /> */}
                     <SearchBar query={query} />
+
                 </div>
-                <FilterTags query={query} />
+                {/* <FilterTags query={query} />
                 <MenuGrid menuItems={filteredItems} /> */}
-                <div>
-                    there is osmethisng
-                </div>
             </div>
         </div>
     );
