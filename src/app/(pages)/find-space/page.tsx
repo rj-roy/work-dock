@@ -1,4 +1,5 @@
 import AsideNav from "@/components/pages/findSpace/AsideNav";
+import FHeader from "@/components/pages/findSpace/FHeader";
 import SearchBar from "@/components/pages/findSpace/SearchBar";
 import { getDataByCollection } from "@/lib/api/getData";
 
@@ -22,11 +23,11 @@ const FindSpaces = async ({ searchParams }: Props) => {
 
     const activeCategory = query.category ?? "";
     return (
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-3">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3">
             <AsideNav activeCategory={activeCategory} />
             <div className="min-w-0 min-h-screen gap-3 px-4 sm:px-6 lg:px-2 py-8">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
-                    {/* <MenuHeader category={activeCategory} /> */}
+                    <FHeader category={activeCategory} />
                     <SearchBar query={query} />
 
                 </div>

@@ -54,35 +54,33 @@ export default function NavBar() {
                             <ThemeSwitch />
                         </div>
 
-                        {
-                            !session ?
-                                <Link href={'/auth/signup/'} className='text-white dark:text-black font-bold bg-secondary dark:bg-primary/70 hover:bg-primary rounded-sm text-md p-2 px-4 flex justify-center items-center'>
-                                    Get Started
-                                </Link>
-                                : <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="p-2 rounded-lg text-secondary dark:text-tertiary hover:bg-neutral/10 dark:hover:bg-neutral/20 transition-colors">
-                                    <div className='flex justify-center items-center gap-2'>
-                                        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-                                            {
-                                                (session?.user as { profileImage?: string })?.profileImage ? (
-                                                    <Image
-                                                        src={(session?.user as { profileImage?: string })?.profileImage as string}
-                                                        alt="Profile Image"
-                                                        width={500}
-                                                        height={500}
-                                                        loading='eager'
-                                                        className="rounded-full"
-                                                    />
-                                                ) : (
-                                                    <User className="w-10 h-10 text-white" />
-                                                )
-                                            }
-                                        </div>
-                                        <span className="hidden lg:block text-sm">
-                                            {session?.user?.name?.split(' ')[0] || 'User'}
-                                        </span>
+                        {!session ?
+                            <Link href={'/auth/signup/'} className='text-white font-bold bg-secondary dark:bg-primary/70 hover:bg-primary rounded-sm text-md p-2 px-4 flex justify-center items-center'>
+                                Get Started
+                            </Link>
+                            : <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="p-2 rounded-lg text-primary hover:bg-neutral/10 dark:hover:bg-neutral/20 transition-colors">
+                                <div className='flex justify-center items-center gap-2'>
+                                    <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+                                        {
+                                            (session?.user as { profileImage?: string })?.profileImage ? (
+                                                <Image
+                                                    src={(session?.user as { profileImage?: string })?.profileImage as string}
+                                                    alt="Profile Image"
+                                                    width={500}
+                                                    height={500}
+                                                    loading='eager'
+                                                    className="rounded-full"
+                                                />
+                                            ) : (
+                                                <User className="w-10 h-10 text-white" />
+                                            )
+                                        }
                                     </div>
-                                </button>
-                        }
+                                    <span className="hidden lg:block text-sm">
+                                        {session?.user?.name?.split(' ')[0] || 'User'}
+                                    </span>
+                                </div>
+                            </button>}
 
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -115,7 +113,7 @@ export default function NavBar() {
                                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                         onClick={() => setUserMenuOpen(false)}
                                     >
-                                        <Grid2X2/>
+                                        <Grid2X2 />
                                         Dashboard
                                     </Link>
                                     <Link
@@ -123,7 +121,7 @@ export default function NavBar() {
                                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                         onClick={() => setUserMenuOpen(false)}
                                     >
-                                        <User2 size={20}/>
+                                        <User2 size={20} />
                                         Profile
                                     </Link>
                                 </div>
@@ -160,7 +158,7 @@ export default function NavBar() {
                         ))}
 
                         <div className="pt-4 mt-4 border-t border-neutral/20 dark:border-neutral/30 space-y-3 flex justify-between items-center">
-                            <button onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-4 py-3 text-secondary dark:text-tertiary hover:bg-neutral/10 dark:hover:bg-neutral/20 rounded-lg transition-colors">
+                            <button onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-4 py-3 text-primary hover:bg-neutral/10 dark:hover:bg-neutral/20 rounded-lg transition-colors">
                                 <div className=''>
                                     {
                                         !session ?
@@ -176,7 +174,7 @@ export default function NavBar() {
                                                     className="rounded-full w-8 h-8"
                                                 />
                                             ) : (
-                                                <User className="w-10 h-10 text-secondary dark:text-tertiary" />
+                                                <User className="w-10 h-10 text-primary dark:text-primary" />
                                             )
                                     }
                                 </div>
