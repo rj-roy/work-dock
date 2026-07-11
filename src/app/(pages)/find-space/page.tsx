@@ -1,8 +1,8 @@
 import AsideNav from "@/components/pages/findSpace/AsideNav";
 import FilterBar from "@/components/pages/findSpace/filterBar/FilterBar";
 import WorkspaceGrid from "@/components/pages/findSpace/workspace/WorkspaceGrid";
-import type { FindSpaceProps, Workspace } from "@/components/pages/findSpace/workspace/workspaceType";
 import { getDataByCollection } from "@/lib/api/getData";
+import { FindSpaceProps, Workspace } from "@/types/workspaceType";
 import { Metadata } from "next";
 import Link from "next/link";
 

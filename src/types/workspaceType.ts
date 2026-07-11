@@ -15,6 +15,9 @@ export interface Workspace {
     reviewCount: number;
     status: 'approved' | 'pending' | 'rejected';
     publisherId: string;
+    publisherName: string;
+    publisherRating: number;
+    publisherBadge: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -34,4 +37,22 @@ export type FindSpaceProps = {
         pricePerDay?: string;
         sort?: string;
     }>;
+};
+
+export interface Review {
+    id: string;
+    userName: string;
+    userInitials: string;
+    date: string;
+    comment: string;
+};
+
+export interface RelatedWorkspace {
+    _id: string;
+    title: string;
+    image: string;
+    rating: number;
+    location: string;
+    category: string;
+    pricePerDay: number;
 };

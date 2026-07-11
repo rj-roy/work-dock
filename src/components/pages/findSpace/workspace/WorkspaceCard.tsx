@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { MapPin, Users, Star, Wifi, Coffee, Car, Wind, Printer, Monitor, Building2, Briefcase } from 'lucide-react';
 import { Workspace } from '@/types/workspaceType';
+import Link from 'next/link';
 
 const amenityIcons: Record<string, React.ReactNode> = {
     wifi: <Wifi className="w-4 h-4" />,
@@ -90,9 +91,10 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
             <div className="p-5">
                 {/* Title & Location */}
                 <div className="mb-3">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                    <Link href={`/find-space/${workspace._id}`}
+                     className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                         {workspace.title}
-                    </h3>
+                    </Link>
                     <div className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
                         <MapPin className="w-4 h-4" />
                         <span className="line-clamp-1">{workspace.address}</span>
