@@ -1,15 +1,9 @@
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import FilterPill from "./FilterPill";
 import DropdownOption from "./DropDownOption";
+import SearchBar from "../SearchBar";
 
-type SortOption =
-  | "recommended"
-  | "price-asc"
-  | "price-desc"
-  | "rating"
-  | "rating-desc"
-  | "newest"
-  | "oldest"
+type SortOption = | "recommended" | "price-asc" | "price-desc" | "rating" | "rating-desc" | "newest" | "oldest";
 
 type QueryValue = string | string[] | undefined;
 type QueryRecord = Record<string, QueryValue>;
@@ -18,16 +12,9 @@ interface FilterBarProps {
   query?: QueryRecord;
   cities?: string[];
   categories?: { value: string; label: string }[];
-}
+};
 
-const DEFAULT_CITIES = [
-  "Dhaka",
-  "Chattogram",
-  "Sylhet",
-  "Rajshahi",
-  "Khulna",
-  "Dinajpur",
-];
+const DEFAULT_CITIES = ["Dhaka", "Chattogram", "Sylhet", "Rajshahi", "Khulna", "Dinajpur",];
 
 const DEFAULT_CATEGORIES = [
   { value: "hot-desk", label: "Hot Desk" },
@@ -40,7 +27,7 @@ const PRICE_RANGES: { label: string; value: string }[] = [
   { label: "Under ৳300/day", value: "0-300" },
   { label: "৳300 - ৳700/day", value: "300-700" },
   { label: "৳700 - ৳1500/day", value: "700-1500" },
-  { label: "Above ৳1500/day", value: "1500-" },
+  { label: "Above ৳1500/day", value: "1500-0" },
 ];
 
 const CAPACITY_OPTIONS = [1, 2, 5, 10, 20];
@@ -57,7 +44,7 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 function getValue(value: QueryValue) {
   return Array.isArray(value) ? value[0] ?? "" : value ?? "";
-}
+};
 
 function buildHref(query: QueryRecord, key: string, value: string | null) {
   const params = new URLSearchParams();
@@ -85,13 +72,13 @@ export default function FilterBar({
   const city = getValue(query.city);
   const category = getValue(query.category);
   const capacity = getValue(query.capacity);
-  const priceRange = getValue(query.priceRange);
+  const pricePerDay = getValue(query.pricePerDay);
   const sortBy = (getValue(query.sort) as SortOption) || "recommended";
 
-  const activeCount = [city, category, capacity, priceRange].filter(Boolean).length;
+  const activeCount = [city, category, capacity, pricePerDay].filter(Boolean).length;
 
   return (
-    <div className="flex flex-wrap items-center gap-3 py-3">
+    <div className="flex flex-wrap items-center gap-3 py-3 max-w-6xl mx-auto">
       <FilterPill
         label="City"
         isActive={!!city}
@@ -111,19 +98,19 @@ export default function FilterBar({
 
       <FilterPill
         label="Price Range"
-        isActive={!!priceRange}
-        activeLabel={PRICE_RANGES.find((r) => r.value === priceRange)?.label}
+        isActive={!!pricePerDay}
+        activeLabel={PRICE_RANGES.find((r) => r.value === pricePerDay)?.label}
       >
         <div className="flex flex-col">
           {PRICE_RANGES.map((range) => (
             <DropdownOption
               key={range.value}
               label={range.label}
-              selected={priceRange === range.value}
+              selected={pricePerDay === range.value}
               href={buildHref(
                 query,
-                "priceRange",
-                priceRange === range.value ? null : range.value
+                "pricePerDay",
+                pricePerDay === range.value ? null : range.value
               )}
             />
           ))}
@@ -174,7 +161,7 @@ export default function FilterBar({
 
       <a
         href=""
-        className="flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
+        className="flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
       >
         <SlidersHorizontal className="h-4 w-4" />
         More Filters
@@ -185,6 +172,7 @@ export default function FilterBar({
         )}
       </a>
 
+      <SearchBar query={query} />
       <div className="ml-auto relative">
         <details className="relative">
           <summary className="list-none flex cursor-pointer items-center gap-2">

@@ -33,9 +33,6 @@ export default function FHeader({ category }: Props) {
             <h1 className="text-2xl font-serif font-bold text-secondary">
                 {currentData?.title}
             </h1>
-            <p className="text-neutral text-sm dark:text-white/60 max-w-xl">
-                {currentData?.description}
-            </p>
         </div>
     );
 }

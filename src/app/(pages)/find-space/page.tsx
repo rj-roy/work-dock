@@ -1,7 +1,7 @@
 import AsideNav from "@/components/pages/findSpace/AsideNav";
-import FHeader from "@/components/pages/findSpace/FHeader";
 import FilterBar from "@/components/pages/findSpace/filterBar/FilterBar";
-import SearchBar from "@/components/pages/findSpace/SearchBar";
+import WorkspaceGrid from "@/components/pages/findSpace/workspace/WorkspaceGrid";
+import type { FindSpaceProps, Workspace } from "@/components/pages/findSpace/workspace/workspaceType";
 import { getDataByCollection } from "@/lib/api/getData";
 import { Metadata } from "next";
 
@@ -10,45 +10,14 @@ export const metadata: Metadata = {
     description: "Let's explore the desired spaces accroding to your choice",
 };
 
-type Props = {
-    searchParams: Promise<{
-        search?: string;
-        category?: string;
-        page?: string;
-        city?: string;
-        capacity?: string;
-        priceRange?: string;
-        sort?: string;
-    }>;
-};
-
-export interface Workspace {
-    _id: string;
-    title: string;
-    shortDescription: string;
-    fullDescription: string;
-    category: "private-office" | "meeting-room" | "studio" | "hot-desk";
-    pricePerDay: number;
-    capacity: number;
-    city: string;
-    address: string;
-    amenities: ("wifi" | "ac" | "printer" | "coffee")[];
-    images: string[];
-    avgRating: number;
-    reviewCount: number;
-    status: "approved" | "pending" | "rejected";
-    publisherId: string;
-    updatedAt: string;
-}
-
-const FindSpaces = async ({ searchParams }: Props) => {
+const FindSpaces = async ({ searchParams }: FindSpaceProps) => {
     const query = await searchParams;
     const params = new URLSearchParams(query);
 
     let approvedWorkspace = await getDataByCollection<Workspace[]>(`/api/v1/get/workspace/query?${params.toString() ? `${params}` : ""}`) ?? [];
 
+    const activeCategory = query.category ?? "";
     const sortBy = query?.sort;
-    console.log(sortBy);
 
     switch (sortBy) {
         case "price-asc":
@@ -79,20 +48,20 @@ const FindSpaces = async ({ searchParams }: Props) => {
             break;
     };
 
-    console.log(approvedWorkspace);
-
-    const activeCategory = query.category ?? "";
     return (
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3">
+        <div className="mx-auto grid grid-cols-1 gap-3">
             <AsideNav activeCategory={activeCategory} />
-            <div className="min-w-0 min-h-screen gap-3 px-4 sm:px-6 lg:px-2 py-8">
+            <div className="min-w-0 min-h-screen gap-3 px-4 sm:px-6 lg:px-2 py-2">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
-                    <FHeader category={activeCategory || "all"} />
-                    <SearchBar query={query} />
-
+                    <div className="shadow-sm dark:shadow-secondary/30 w-full">
+                        <FilterBar query={query} />
+                    </div>
                 </div>
-                <FilterBar query={query} />
-                {/* <MenuGrid menuItems={filteredItems} /> */}
+                <div className="min-h-screen p-6 transition-colors duration-300">
+                    <div className="max-w-7xl mx-auto">
+                        <WorkspaceGrid category={activeCategory || "all"} workspaces={approvedWorkspace} clearFiltersHref="/find-space" />
+                    </div>
+                </div>
             </div>
         </div>
     );

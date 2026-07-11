@@ -14,7 +14,7 @@ export default function FilterPill({
   return (
     <details className="relative">
       <summary
-        className={`list-none flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+        className={`list-none flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
           isActive
             ? "border-indigo-600 bg-indigo-50 text-indigo-700"
             : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
