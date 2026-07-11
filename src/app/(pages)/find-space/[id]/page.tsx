@@ -7,39 +7,8 @@ import WorkspaceAmenities from "@/components/pages/findSpace/workspace/details/W
 import WorkspaceHeader from "@/components/pages/findSpace/workspace/details/WorkSpaceHeader";
 import WorkspaceReviews from "@/components/pages/findSpace/workspace/details/WorkspaceReviews";
 import WorkspaceStats from "@/components/pages/findSpace/workspace/details/WorkSpaceStats";
+import { getDataByCollection } from "@/lib/api/getData";
 import { RelatedWorkspace, Review, Workspace } from "@/types/workspaceType";
-
-async function getWorkspace(id: string): Promise<Workspace> {
-    return {
-        _id: id,
-        title: 'The Executive Suite',
-        shortDescription: 'Premium glass-walled office with sweeping views of the San Francisco skyline.',
-        fullDescription: 'Experience the pinnacle of professional workspace design. The Executive Suite offers a premium glass-walled environment with sweeping views of the San Francisco skyline. Designed for high-impact teams and focused individuals, this office combines the privacy of a dedicated suite with the vibrant energy of a top-tier coworking hub. Every detail, from the acoustic treatment to the custom ergonomic seating, has been curated to foster peak productivity and executive presence.',
-        category: 'private-office',
-        pricePerDay: 120,
-        pricePerMonth: 2200,
-        capacity: 10,
-        city: 'San Francisco',
-        address: 'San Francisco, California',
-        amenities: ['wifi', 'coffee', 'parking', 'ac', 'printer'],
-        images: [
-            'https://lh3.googleusercontent.com/aida/AP1WRLs78Uuq1joEM1WjjsY7Hk-L5hddrPJii55hSlDX6Dh2d24WjRkO7mSuS0YCDAh1XGzfcsVvWUyffdqOhPm1yNpIcPswXsCwr7VPWBMwpXaUcPHuqUhiUmdSbCf42U7IfNdpVx1Sv9m9qRYxEo3x5WKDyjQc_rTNS_S7ySpqoP3r9XK3eHBFNoYZFT2t_5gMxq366kPblc7XdCMi7ST_A5EzzZ6842xXh0gjlyN3zG8OdxIuK3gPCeZ2wOmm',
-            'https://lh3.googleusercontent.com/aida/AP1WRLukUws0wWeW7sYUUwWKabCrvXLPyvfE_1Q-CB62QYlX4uYKpC9FOVznjjAP-XcODoK1IcYsDIknqaL4B5ede0Zf1VB5WG0m3RO5ALiSBs8LRvDpoLr5jtvbmc-I5kudkq1uALrrC-8nW5RH66ideRb4KCsMjqm3BH0VMr9qFN4Y59c_Dwa16DgAnE4DAPEigeLDSh8kRfsgnwWpp7pZWgiGGlc87x5Xdq6au_9sw2WQgxqnRC5Hshx4mmSe',
-            'https://lh3.googleusercontent.com/aida/AP1WRLsj87fH6SZ9wljMarP-ba35_-tw8V9qZol2f0AmOY6jJ0MoMdm7NuHHQTL1veNEEZFVb62HUFk84VsfPzfwVD3LDSlbEJGpwhqAd1fwSBJrXcP9JYv1qSHH4YgPjRkjpbPDwpF511gHehtUx4-jGgTaawBTdv5-hDaGv12eRItYuQbKgWcFZ0PAQqaUew9WQkYFCrLBMwQP7anjfOYlP1C9nRsZfsqr2rkhX_uE0mtMYDUmYCd59QmQFj1p',
-            'https://lh3.googleusercontent.com/aida/AP1WRLuCw6dbhMm7Um-bPppVcjkoQ6VFuQgsSypJpzdUmp2AUSja17F22_aKAWWbZBI9QzEUVVd9qASK7HrBJwEF9-ohuZzZb1dhOVh4RMq1sezD4MZQoEG7V-KQWarsEaQq3i-u_9CalwAfnvIxrFZuQOooYri6FaiuCL2TxBLJHsh1nD9ivYf-OnaTqtUxiK7vfwok-iw_LNCwZDwrbUnCOZ0oq0EfAxIwt6YGDvvesp8CIlUEcr1Il4bc5v9M',
-            'https://lh3.googleusercontent.com/aida/AP1WRLtbpVgxx0Rfg0b05wlDCg3hl3FH7UCdxEJ3JdgbdEkNaR8WvUyhE_qG6wxziPYf9Qz0Tn_3I9-z3-Oh2tHjII2KHZoGhEbFg1wIq4I-atUawthYW_1RwSE51VjpUnzZRIIgjw36cYmGiyRCGk-rSoGbH3ILUnJPAJ3hONA6gPlcBMCuc79-sz1DscdT80ARf5NIqMyV4zI3W_w7rcW3jjxXKF4KSWEbwLyaLG8DxVQPaxqg2atv1XCBBFc',
-        ],
-        avgRating: 4.9,
-        reviewCount: 124,
-        status: 'approved',
-        publisherId: 'publisher-123',
-        publisherName: 'Sarah Jenkins',
-        publisherRating: 4.98,
-        publisherBadge: 'Superhost',
-        createdAt: '2024-01-01T00:00:00.000Z',
-        updatedAt: '2024-01-01T00:00:00.000Z',
-    };
-}
 
 async function getReviews(): Promise<Review[]> {
     return [
@@ -97,70 +66,65 @@ interface PageProps {
 };
 
 export default async function WorkspaceDetailPage({ params }: PageProps) {
-    const {id} = await params;
-    const workspace = await getWorkspace(params.id);
+    const { id } = await params;
+
+    const selectedWorkspace = await getDataByCollection<Workspace>(`/api/v1/get/workspace/id/${id}`);
+    const workspace = selectedWorkspace?.data;
+
     const reviews = await getReviews();
     const relatedSpaces = await getRelatedSpaces();
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div className="min-h-screen transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Image Gallery */}
                 <div className="mb-8">
-                    <ImageGallery images={workspace.images} title={workspace.title} />
+                    <ImageGallery images={workspace?.images ?? []} title={workspace?.title ?? ""} />
                 </div>
 
-                {/* Main Content Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Left Column - Main Content */}
                     <div className="lg:col-span-2 space-y-8">
-                        {/* Header */}
                         <WorkspaceHeader
-                            title={workspace.title}
+                            title={workspace?.title ?? ""}
                             category="Private Office"
-                            avgRating={workspace.avgRating}
-                            reviewCount={workspace.reviewCount}
-                            city={workspace.city}
-                            address={workspace.address}
+                            avgRating={workspace?.avgRating ?? 0}
+                            reviewCount={workspace?.reviewCount ?? 0}
+                            city={workspace?.city ?? ""}
+                            address={workspace?.address ?? ""}
                         />
 
-                        {/* About */}
-                        <WorkspaceAbout fullDescription={workspace.fullDescription} />
+                        <WorkspaceAbout fullDescription={workspace?.fullDescription ?? ""} />
 
-                        {/* Stats */}
                         <WorkspaceStats
-                            capacity={workspace.capacity}
+                            capacity={workspace?.capacity ?? 0}
                             category="Private Office"
-                            pricePerDay={workspace.pricePerDay}
-                            pricePerMonth={workspace.pricePerMonth}
+                            pricePerDay={workspace?.pricePerDay ?? 0}
+                            pricePerMonth={workspace?.pricePerMonth ?? 0}
                         />
 
-                        {/* Amenities */}
-                        <WorkspaceAmenities amenities={workspace.amenities} />
+                        <WorkspaceAmenities amenities={workspace?.amenities ?? []} />
 
-                        {/* Reviews */}
-                        <WorkspaceReviews reviews={reviews} totalReviews={workspace.reviewCount} />
+                        <WorkspaceReviews reviews={reviews} totalReviews={workspace?.reviewCount ?? 0} />
                     </div>
 
-                    {/* Right Column - Sidebar */}
                     <div className="lg:col-span-1 space-y-6">
-                        {/* Pricing Card */}
                         <PricingCard
-                            pricePerDay={workspace.pricePerDay}
-                            pricePerMonth={workspace.pricePerMonth}
-                        />
-
-                        {/* Host Card */}
-                        <HostCard
-                            name={workspace.publisherName || 'Host'}
-                            badge={workspace.publisherBadge || 'Host'}
-                            rating={workspace.publisherRating || 5.0}
+                            pricePerDay={workspace?.pricePerDay ?? 0}
+                            pricePerMonth={workspace?.pricePerMonth ?? 0}
+                            name={workspace?.publisherName || 'Host'}
+                            badge={workspace?.publisherBadge || 'Host'}
+                            rating={workspace?.publisherRating || 5.0}
                             message="I'm here to ensure your team has everything they need for a successful stay."
                         />
+
+                        {/* <HostCard
+                            name={workspace?.publisherName || 'Host'}
+                            badge={workspace?.publisherBadge || 'Host'}
+                            rating={workspace?.publisherRating || 5.0}
+                            message="I'm here to ensure your team has everything they need for a successful stay."
+                        /> */}
                     </div>
                 </div>
 
-                {/* Related Spaces */}
                 <div className="mt-12">
                     <RelatedSpaces spaces={relatedSpaces} />
                 </div>

@@ -1,6 +1,6 @@
 export interface Workspace {
     _id: string;
-    title: string;
+    title?: string;
     shortDescription: string;
     fullDescription: string;
     category: 'private-office' | 'hot-desk' | 'meeting-room' | 'studio';
@@ -55,4 +55,9 @@ export interface RelatedWorkspace {
     location: string;
     category: string;
     pricePerDay: number;
+};
+
+export interface ApiResponse<T> {
+  data: T;
+  headers: [string, string][];
 };
