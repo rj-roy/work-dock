@@ -26,7 +26,7 @@ export default function NavBar() {
 
 
     return (
-        <nav className="sticky top-0 z-50 w-full shadow-xl transition-colors duration-300">
+        <nav className="sticky top-0 z-50 w-full shadow-xl transition-colors duration-300 bg-white dark:bg-dark-bg">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
                     {/* Logo */}
