@@ -148,19 +148,6 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
                     Book Now
                 </button>
             </div>
-
-            {/* <style jsx>{`
-        @keyframes scroll-images {
-          0%, 20% { transform: translateX(0); }
-          25%, 45% { transform: translateX(-100%); }
-          50%, 70% { transform: translateX(-200%); }
-          75%, 95% { transform: translateX(-300%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-scroll-images {
-          animation: scroll-images ${workspace.images.length * 4}s ease-in-out infinite;
-        }
-      `}</style> */}
         </div>
     );
 }

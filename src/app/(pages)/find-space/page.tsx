@@ -51,15 +51,15 @@ const FindSpaces = async ({ searchParams }: FindSpaceProps) => {
     return (
         <div className="mx-auto grid grid-cols-1 gap-3">
             <AsideNav activeCategory={activeCategory} />
-            <div className="min-w-0 min-h-screen gap-3 px-4 sm:px-6 lg:px-2 py-2">
+            <div className="min-w-0 gap-3 px-4 sm:px-6 lg:px-2 py-2">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
                     <div className="shadow-sm dark:shadow-secondary/30 w-full">
                         <FilterBar query={query} />
                     </div>
                 </div>
-                <div className="min-h-screen p-6 transition-colors duration-300">
+                <div className="p-6 transition-colors duration-300">
                     <div className="max-w-7xl mx-auto">
-                        <WorkspaceGrid category={activeCategory || "all"} workspaces={approvedWorkspace} clearFiltersHref="/find-space" />
+                        <WorkspaceGrid category={activeCategory || "all"} workspaces={approvedWorkspace} />
                     </div>
                 </div>
             </div>

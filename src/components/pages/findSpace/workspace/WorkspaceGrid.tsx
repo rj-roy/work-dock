@@ -3,14 +3,10 @@ import NoResults from './NoResults';
 import FHeader from '../FHeader';
 import { WorkspaceGridProps } from '@/types/workspaceType';
 
-export default function WorkspaceGrid({
-    workspaces = [],
-    clearFiltersHref = '/find-space',
-    category
-}: WorkspaceGridProps) {
+export default function WorkspaceGrid({ workspaces = [], category }: WorkspaceGridProps) {
 
     if (workspaces.length === 0) {
-        return <NoResults clearFiltersHref={clearFiltersHref} />;
+        return <NoResults />;
     };
 
     return (

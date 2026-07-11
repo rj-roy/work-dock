@@ -8,3 +8,31 @@
   --color-neutral: #64748B;
   --color-dark-bg: #121212;
 }
+
+@keyframes scroll-images {
+  0%, 20% {
+    transform: translateX(0);
+  }
+
+  25%, 45% {
+    transform: translateX(-100%);
+  }
+
+  50%, 70% {
+    transform: translateX(-200%);
+  }
+
+  75%, 95% {
+    transform: translateX(-300%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-images {
+  animation-name: scroll-images;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}

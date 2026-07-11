@@ -1,6 +1,6 @@
 export default function CardLoadingSkeleton() {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-22 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-22 px-4 max-w-6xl mx-auto">
             {[...Array(8)].map((_, i) => (
                 <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 animate-pulse">
                     <div className="h-48 bg-gray-200 dark:bg-gray-700" />

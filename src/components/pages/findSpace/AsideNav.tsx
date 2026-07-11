@@ -36,7 +36,7 @@ export default function AsideNav({ activeCategory }: MenuNavProps) {
                     <button
                         type="button"
                         onClick={() => setIsOpen((prev) => !prev)}
-                        className="fixed left-64 top-100 bottom-100 z-70 flex h-10 w-10 items-center justify-center rounded-full border border-neutral/20 bg-primary text-tertiary shadow-sm backdrop-blur"
+                        className="fixed left-60 top-100 bottom-100 z-900 flex h-10 w-10 items-center justify-center rounded-full border border-neutral/20 bg-primary text-white shadow-sm backdrop-blur"
                     >
                         <ChevronLeft className="h-5 w-5" />
                     </button>
@@ -46,7 +46,7 @@ export default function AsideNav({ activeCategory }: MenuNavProps) {
                     <button
                         type="button"
                         onClick={() => setIsOpen((prev) => !prev)}
-                        className="fixed left-3 top-100 bottom-100 z-70 flex h-10 w-10 items-center justify-center rounded-full border border-neutral/20 bg-primary text-tertiary shadow-sm backdrop-blur"
+                        className="fixed left-3 top-100 bottom-100 z-70 flex h-10 w-10 items-center justify-center rounded-full border border-neutral/20 bg-primary text-white shadow-sm backdrop-blur"
                     >
                         <ChevronRight className="h-5 w-5" />
                     </button>

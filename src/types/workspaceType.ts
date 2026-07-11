@@ -21,7 +21,6 @@ export interface Workspace {
 
 export interface WorkspaceGridProps {
     workspaces?: Workspace[];
-    clearFiltersHref?: string;
     category?: string;
 };
 

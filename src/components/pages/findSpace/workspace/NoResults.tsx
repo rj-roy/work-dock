@@ -1,10 +1,7 @@
 import { Search, Filter } from 'lucide-react';
+import Link from 'next/link';
 
-interface NoResultsProps {
-  clearFiltersHref?: string;
-};
-
-export default function NoResults({ clearFiltersHref = '/find-space' }: NoResultsProps) {
+export default function NoResults() {
   const recommendedLocations = ['London', 'Berlin', 'San Francisco', 'Tokyo'];
 
   return (
@@ -32,13 +29,13 @@ export default function NoResults({ clearFiltersHref = '/find-space' }: NoResult
       </p>
 
       {/* Clear Filters Button */}
-      <a
-        href={clearFiltersHref}
+      <Link
+        href={"/find-space"}
         className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-600/20 dark:shadow-indigo-600/30 hover:shadow-xl"
       >
         <Filter className="w-5 h-5" />
         Clear Filters
-      </a>
+      </Link>
 
       {/* Recommended Locations */}
       <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 w-full max-w-2xl">
