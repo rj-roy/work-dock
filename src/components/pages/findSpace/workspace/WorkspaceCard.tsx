@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { MapPin, Users, Star, Wifi, Coffee, Car, Wind, Printer, Monitor, Building2, Briefcase } from 'lucide-react';
 import { Workspace } from '@/types/workspaceType';
 import Link from 'next/link';
+import BookingWidget from '../booking/BookingWidget';
 
 const amenityIcons: Record<string, React.ReactNode> = {
     wifi: <Wifi className="w-4 h-4" />,
@@ -92,7 +93,7 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
                 {/* Title & Location */}
                 <div className="mb-3">
                     <Link href={`/find-space/${workspace._id}`}
-                     className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                         {workspace.title}
                     </Link>
                     <div className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
@@ -144,11 +145,12 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
                 </div>
 
                 {/* Book Now Button */}
-                <button
-                    className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-600/20 dark:shadow-indigo-600/30 hover:shadow-xl hover:shadow-indigo-600/30 dark:hover:shadow-indigo-600/40 active:scale-[0.98]"
-                >
-                    Book Now
-                </button>
+                <BookingWidget
+                    workspaceId={workspace._id}
+                    workspaceTitle={workspace.title ?? ""}
+                    pricePerDay={workspace.pricePerDay}
+                    pricePerMonth={workspace.pricePerMonth ?? 0}
+                />
             </div>
         </div>
     );
