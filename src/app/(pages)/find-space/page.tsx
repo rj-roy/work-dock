@@ -1,5 +1,6 @@
 import AsideNav from "@/components/pages/findSpace/AsideNav";
 import FHeader from "@/components/pages/findSpace/FHeader";
+import FilterBar from "@/components/pages/findSpace/filterBar/FilterBar";
 import SearchBar from "@/components/pages/findSpace/SearchBar";
 import { getDataByCollection } from "@/lib/api/getData";
 
@@ -11,6 +12,7 @@ type Props = {
         city?: string;
         capacity?: string;
         priceRange?: string;
+        sort?: string;
     }>;
 };
 
@@ -27,12 +29,12 @@ const FindSpaces = async ({ searchParams }: Props) => {
             <AsideNav activeCategory={activeCategory} />
             <div className="min-w-0 min-h-screen gap-3 px-4 sm:px-6 lg:px-2 py-8">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
-                    <FHeader category={activeCategory} />
+                    <FHeader category={activeCategory || "all"} />
                     <SearchBar query={query} />
 
                 </div>
-                {/* <FilterTags query={query} />
-                <MenuGrid menuItems={filteredItems} /> */}
+                <FilterBar query={query} />
+                {/* <MenuGrid menuItems={filteredItems} /> */}
             </div>
         </div>
     );
