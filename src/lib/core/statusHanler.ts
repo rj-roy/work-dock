@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 
-export const statusHandler = async <T>(res: Response): Promise<T | null> => {
+export interface ServerFetchResult<T> {
+    data: T | null;
+    headers: Headers;
+};
+
+export const statusHandler = async <T>(res: Response): Promise<ServerFetchResult<T>> => {
     switch (res.status) {
         case 401:
             redirect("/unauthorized");
@@ -12,6 +17,7 @@ export const statusHandler = async <T>(res: Response): Promise<T | null> => {
             redirect("/not-found");
     };
 
+    const headers = res.headers;
     const text = await res.text();
 
     if (!res.ok) {
@@ -25,11 +31,11 @@ export const statusHandler = async <T>(res: Response): Promise<T | null> => {
     };
 
     if (!text) {
-        return null;
+        return { data: null, headers };
     };
 
     try {
-        return JSON.parse(text) as T;
+        return { data: JSON.parse(text) as T, headers };
     } catch {
         throw new Error("Invalid response from server");
     };

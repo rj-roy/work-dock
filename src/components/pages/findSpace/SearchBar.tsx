@@ -8,6 +8,7 @@ type Props = {
         city?: string;
         capacity?: string;
         pricePerDay?: string;
+        sort?: string;
     };
 };
 
@@ -18,6 +19,7 @@ export default async function SearchBar({ query }: Props) {
             <input type="hidden" name="city" value={query.city ?? ""} />
             <input type="hidden" name="capacity" value={query.capacity ?? ""} />
             <input type="hidden" name="pricePerDay" value={query.pricePerDay ?? ""} />
+            <input type="hidden" name="sort" value={query.sort ?? ""} />
 
             <input
                 type="text"
