@@ -3,6 +3,12 @@ import FHeader from "@/components/pages/findSpace/FHeader";
 import FilterBar from "@/components/pages/findSpace/filterBar/FilterBar";
 import SearchBar from "@/components/pages/findSpace/SearchBar";
 import { getDataByCollection } from "@/lib/api/getData";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Find Spaces | WorkDock",
+    description: "Let's explore the desired spaces accroding to your choice",
+};
 
 type Props = {
     searchParams: Promise<{
@@ -16,11 +22,63 @@ type Props = {
     }>;
 };
 
+export interface Workspace {
+    _id: string;
+    title: string;
+    shortDescription: string;
+    fullDescription: string;
+    category: "private-office" | "meeting-room" | "studio" | "hot-desk";
+    pricePerDay: number;
+    capacity: number;
+    city: string;
+    address: string;
+    amenities: ("wifi" | "ac" | "printer" | "coffee")[];
+    images: string[];
+    avgRating: number;
+    reviewCount: number;
+    status: "approved" | "pending" | "rejected";
+    publisherId: string;
+    updatedAt: string;
+}
+
 const FindSpaces = async ({ searchParams }: Props) => {
     const query = await searchParams;
     const params = new URLSearchParams(query);
 
-    const approvedWorkspace = await getDataByCollection(`/api/v1/get/workspace/query?${params.toString() ? `${params}` : ""}`)
+    let approvedWorkspace = await getDataByCollection<Workspace[]>(`/api/v1/get/workspace/query?${params.toString() ? `${params}` : ""}`) ?? [];
+
+    const sortBy = query?.sort;
+    console.log(sortBy);
+
+    switch (sortBy) {
+        case "price-asc":
+            approvedWorkspace = [...approvedWorkspace].sort((a, b) => a.pricePerDay - b.pricePerDay);
+            break;
+
+        case "price-desc":
+            approvedWorkspace = [...approvedWorkspace].sort((a, b) => b.pricePerDay - a.pricePerDay);
+            break;
+
+        case "rating":
+            approvedWorkspace = [...approvedWorkspace].sort((a, b) => b.avgRating - a.avgRating);
+            break;
+
+        case "rating-desc":
+            approvedWorkspace = [...approvedWorkspace].sort((a, b) => a.avgRating - b.avgRating);
+            break;
+
+        case "newest":
+            approvedWorkspace = [...approvedWorkspace].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+            break;
+
+        case "oldest":
+            approvedWorkspace = [...approvedWorkspace].sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
+            break;
+
+        default:
+            break;
+    };
+
     console.log(approvedWorkspace);
 
     const activeCategory = query.category ?? "";

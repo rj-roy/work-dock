@@ -7,7 +7,9 @@ type SortOption =
   | "price-asc"
   | "price-desc"
   | "rating"
-  | "newest";
+  | "rating-desc"
+  | "newest"
+  | "oldest"
 
 type QueryValue = string | string[] | undefined;
 type QueryRecord = Record<string, QueryValue>;
@@ -48,7 +50,9 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "price-asc", label: "Price: Low to High" },
   { value: "price-desc", label: "Price: High to Low" },
   { value: "rating", label: "Highest Rated" },
+  { value: "rating-desc", label: "Lowest Rated" },
   { value: "newest", label: "Newest" },
+  { value: "oldest", label: "Oldest" },
 ];
 
 function getValue(value: QueryValue) {
@@ -93,7 +97,7 @@ export default function FilterBar({
         isActive={!!city}
         activeLabel={city || undefined}
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center">
           {cities.map((c) => (
             <DropdownOption
               key={c}
