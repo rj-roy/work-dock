@@ -1,4 +1,5 @@
 import { Shield, Star, User } from "lucide-react";
+import BookingWidget from "../../booking/BookingWidget";
 
 interface PricingCardProps {
   pricePerDay: number;
@@ -7,9 +8,11 @@ interface PricingCardProps {
   badge: string;
   rating: number;
   message: string;
-}
+  workSpaceId: string;
+  title: string;
+};
 
-export default function PricingCard({ pricePerDay, pricePerMonth, name, badge, rating, message }: PricingCardProps) {
+export default function PricingCard({ pricePerDay, pricePerMonth, name, badge, rating, message, workSpaceId, title }: PricingCardProps) {
   return (
     <div className="sticky top-24 p-6 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
       <div className="space-y-4">
@@ -33,9 +36,13 @@ export default function PricingCard({ pricePerDay, pricePerMonth, name, badge, r
 
         {/* Action Buttons */}
         <div className="space-y-3 pt-4">
-          <button className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-600/20 hover:shadow-xl">
-            Book Now
-          </button>
+          <BookingWidget
+            workspaceId={workSpaceId}
+            workspaceTitle={title}
+            pricePerDay={pricePerDay}
+            pricePerMonth={pricePerMonth ?? 0}
+          // onSubmitAction={yourServerActionHere} — wire this up later
+          />
           <button className="w-full py-3 px-4 bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200">
             Contact Host
           </button>

@@ -1,4 +1,3 @@
-import HostCard from "@/components/pages/findSpace/workspace/details/HostCard";
 import ImageGallery from "@/components/pages/findSpace/workspace/details/ImagesGallery";
 import PricingCard from "@/components/pages/findSpace/workspace/details/PricingCard";
 import RelatedSpaces from "@/components/pages/findSpace/workspace/details/RelatedSpaces";
@@ -108,6 +107,8 @@ export default async function WorkspaceDetailPage({ params }: PageProps) {
 
                     <div className="lg:col-span-1 space-y-6">
                         <PricingCard
+                            title = {workspace?.title ?? ""}
+                            workSpaceId = {workspace?._id ?? ''}
                             pricePerDay={workspace?.pricePerDay ?? 0}
                             pricePerMonth={workspace?.pricePerMonth ?? 0}
                             name={workspace?.publisherName || 'Host'}
@@ -115,13 +116,6 @@ export default async function WorkspaceDetailPage({ params }: PageProps) {
                             rating={workspace?.publisherRating || 5.0}
                             message="I'm here to ensure your team has everything they need for a successful stay."
                         />
-
-                        {/* <HostCard
-                            name={workspace?.publisherName || 'Host'}
-                            badge={workspace?.publisherBadge || 'Host'}
-                            rating={workspace?.publisherRating || 5.0}
-                            message="I'm here to ensure your team has everything they need for a successful stay."
-                        /> */}
                     </div>
                 </div>
 
