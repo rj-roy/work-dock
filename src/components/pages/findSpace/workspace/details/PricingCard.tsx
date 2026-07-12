@@ -3,7 +3,7 @@ import BookingWidget from "../../booking/BookingWidget";
 
 interface PricingCardProps {
   pricePerDay: number;
-  pricePerMonth?: number;
+  pricePerMonth: number;
   name: string;
   badge: string;
   rating: number;
@@ -24,7 +24,7 @@ export default function PricingCard({ pricePerDay, pricePerMonth, name, badge, r
             </span>
             <span className="text-gray-500 dark:text-gray-400">/ day</span>
           </div>
-          {pricePerMonth && (
+          {pricePerMonth > 0 && (
             <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <span className="text-gray-500">or</span>
               <span className="font-semibold text-indigo-600 dark:text-indigo-400">

@@ -35,7 +35,7 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
     };
 
     return (
-        <div className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700">
+        <div className="group h-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col">
             {/* Image Container with Auto-scroll */}
             <div className="relative h-48 overflow-hidden">
                 <div className="absolute inset-0 flex animate-scroll-images">
@@ -89,13 +89,19 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
             </div>
 
             {/* Content */}
-            <div className="p-5">
+            <div className="p-5 flex flex-1 flex-col">
                 {/* Title & Location */}
                 <div className="mb-3">
-                    <Link href={`/find-space/${workspace._id}`}
-                        className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                        {workspace.title}
-                    </Link>
+                    <div className='flex justify-between gap-2'>
+                        <Link href={`/find-space/${workspace._id}`}
+                            className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                            {workspace.title}
+                        </Link>
+                        <Link href={`/find-space/${workspace._id}`}
+                        className='font-bold text-primary text-xl underline underline-offset-2'>
+                            View
+                        </Link>
+                    </div>
                     <div className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
                         <MapPin className="w-4 h-4" />
                         <span className="line-clamp-1">{workspace.address}</span>
@@ -145,12 +151,14 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
                 </div>
 
                 {/* Book Now Button */}
-                <BookingWidget
-                    workspaceId={workspace._id}
-                    workspaceTitle={workspace.title ?? ""}
-                    pricePerDay={workspace.pricePerDay}
-                    pricePerMonth={workspace.pricePerMonth ?? 0}
-                />
+                <div className="mt-auto">
+                    <BookingWidget
+                        workspaceId={workspace._id}
+                        workspaceTitle={workspace.title ?? ""}
+                        pricePerDay={workspace.pricePerDay}
+                        pricePerMonth={workspace.pricePerMonth ?? 0}
+                    />
+                </div>
             </div>
         </div>
     );

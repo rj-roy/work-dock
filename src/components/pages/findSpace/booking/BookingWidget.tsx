@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
+import SigninCompo from '@/components/auth/SigninCompo';
+import MemberOnlyModal from './MemberOnlyModal';
 
 interface BookingModalProps {
     workspaceId: string;
@@ -13,9 +16,11 @@ interface BookingModalProps {
 
 export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay, pricePerMonth, }: BookingModalProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const { data: session } = authClient.useSession();
+    console.log(session);
 
     const onSubmitAction = async (formData: FormData) => {
-        console.log([...formData.entries()]);   
+        console.log([...formData.entries()]);
     };
 
     return (
@@ -36,86 +41,98 @@ export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay
                     />
 
                     {/* Modal */}
-                    <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-2xl">
-                        <button
-                            type="button"
-                            onClick={() => setIsOpen(false)}
-                            className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                        >
-                            <X className="w-5 h-5" />
-                        </button>
-
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                            Book {workspaceTitle}
-                        </h2>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-                            ৳{pricePerDay.toLocaleString()}/day
-                            or ৳{pricePerMonth.toLocaleString()}/month
-                        </p>
-
-                        <form
-                            action={async (formData: FormData) => {
-                                formData.set('workspaceId', workspaceId);
-                                await onSubmitAction?.(formData);
-                                setIsOpen(false);
-                            }}
-                            className="space-y-4" >
-                            <input type="hidden" name="workspaceId" value={workspaceId} />
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Check-in date
-                                </label>
-                                <input
-                                    type="date"
-                                    name="checkInDate"
-                                    required
-                                    className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white"
-                                />
+                    {
+                        !session ?
+                            <div className='relative w-full max-w-2xl rounded-2xl p-6 shadow-2xl'>
+                                <SigninCompo redirect={'/find-space'} />
                             </div>
+                            : (session?.user as {role?: string})?.role !== "member" ?
+                                <MemberOnlyModal setIsOpen={setIsOpen} returnTo={`/find-space/${workspaceId}`} />
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Number of days
-                                </label>
-                                <input
-                                    type="number"
-                                    name="numberOfDays"
-                                    min={1}
-                                    defaultValue={1}
-                                    required
-                                    className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white"
-                                />
-                            </div>
+                                : <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-2xl">
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Notes (optional)
-                                </label>
-                                <textarea
-                                    name="notes"
-                                    rows={3}
-                                    className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white resize-none"
-                                />
-                            </div>
+                                    <div>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsOpen(false)}
+                                            className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                                        >
+                                            <X className="w-5 h-5" />
+                                        </button>
 
-                            <div className="flex gap-3 pt-2">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsOpen(false)}
-                                    className="flex-1 py-2.5 px-4 rounded-xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="flex-1 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors"
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                                            Book {workspaceTitle}
+                                        </h2>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                                            ৳{pricePerDay.toLocaleString()}/day
+                                            or ৳{pricePerMonth.toLocaleString()}/month
+                                        </p>
+
+                                        <form
+                                            action={async (formData: FormData) => {
+                                                formData.set('workspaceId', workspaceId);
+                                                await onSubmitAction?.(formData);
+                                                setIsOpen(false);
+                                            }}
+                                            className="space-y-4" >
+                                            <input type="hidden" name="workspaceId" value={workspaceId} />
+
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                                    Check-in date
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    name="checkInDate"
+                                                    required
+                                                    className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                                    Number of days
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="numberOfDays"
+                                                    min={1}
+                                                    defaultValue={1}
+                                                    required
+                                                    className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                                    Notes (optional)
+                                                </label>
+                                                <textarea
+                                                    name="notes"
+                                                    rows={3}
+                                                    className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2 text-sm text-gray-900 dark:text-white resize-none"
+                                                />
+                                            </div>
+
+                                            <div className="flex gap-3 pt-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setIsOpen(false)}
+                                                    className="flex-1 py-2.5 px-4 rounded-xl border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    className="flex-1 py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors"
+                                                >
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                    }
                 </div>
             )}
         </>

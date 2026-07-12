@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const SigninPage = () => {
     return (
         <div>
-            <SigninCompo/>
+            <SigninCompo redirect={'/dashboard/profile'}/>
         </div>
     );
 };

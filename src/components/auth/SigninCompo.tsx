@@ -11,9 +11,13 @@ import { toast } from 'react-toastify';
 interface FormData {
     email: string;
     password: string;
+};
+
+interface Props {
+    redirect: string;
 }
 
-export default function SigninCompo() {
+export default function SigninCompo({redirect}: Props) {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isDemoLoading, setIsDemoLoading] = useState(false);
@@ -21,7 +25,7 @@ export default function SigninCompo() {
 
     const router = useRouter();
     const searchParams = useSearchParams();
-    const redirectTo = searchParams.get('redirect') || '/dashboard/profile';
+    const redirectTo = searchParams.get('redirect') || redirect;
 
     const [formData, setFormData] = useState<FormData>({
         email: '',
@@ -91,7 +95,7 @@ export default function SigninCompo() {
     };
 
     return (
-        <div className="min-h-screen bg-indigo-50 dark:bg-gray-900 flex items-center justify-center p-4 transition-colors duration-300">
+        <div className="min-h-screen  flex items-center justify-center p-4 transition-colors duration-300">
             <div className="w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-300">
                 {/* Header */}
                 <div className="text-center mb-8">
@@ -105,7 +109,7 @@ export default function SigninCompo() {
                             className='rounded-2xl'
                         />                    </div>
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        Welcome back
+                        Welcome back, Login Please!
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
                         Log in to manage your workspace and team.
