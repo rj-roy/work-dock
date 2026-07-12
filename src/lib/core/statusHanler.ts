@@ -1,11 +1,7 @@
+import { WorkSpaceResult } from "@/types/serverTypes";
 import { redirect } from "next/navigation";
 
-export interface ServerFetchResult<T> {
-    data: T | null;
-    headers: Headers;
-};
-
-export const statusHandler = async <T>(res: Response): Promise<ServerFetchResult<T>> => {
+export const statusHandler = async <T>(res: Response): Promise<WorkSpaceResult<T>> => {
     switch (res.status) {
         case 401:
             redirect("/unauthorized");

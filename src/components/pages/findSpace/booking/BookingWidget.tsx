@@ -1,26 +1,50 @@
 'use client'
-
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import SigninCompo from '@/components/auth/SigninCompo';
 import MemberOnlyModal from './MemberOnlyModal';
+import { patchAction } from '@/lib/actions/patchActions';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 interface BookingModalProps {
     workspaceId: string;
     workspaceTitle: string;
     pricePerDay: number;
     pricePerMonth: number;
-    // onSubmitAction?: (formData: FormData) => Promise<void>;
 }
 
 export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay, pricePerMonth, }: BookingModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const { data: session } = authClient.useSession();
-    console.log(session);
+    const router = useRouter();
 
     const onSubmitAction = async (formData: FormData) => {
-        console.log([...formData.entries()]);
+
+        formData.set('workspaceTitle', workspaceTitle);
+        formData.set('workspaceId', workspaceId);
+        formData.set("userName", session?.user?.name ?? "");
+        formData.set("userId", session?.user?.id ?? "");
+
+        const bookingData = Object.fromEntries(formData.entries());
+
+        try {
+            const booking = await patchAction(bookingData, '/api/v1/booking/create', 'member')
+
+            if (booking.success === false) {
+                toast.error(booking.message)
+                return;
+            };
+
+            if (booking.success === true) {
+                toast.success("Booking created successfully!");
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+                router.push('/dashboard/member/bookings');
+            };
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+        };
     };
 
     return (
@@ -39,14 +63,12 @@ export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay
                         onClick={() => setIsOpen(false)}
                         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                     />
-
-                    {/* Modal */}
                     {
                         !session ?
                             <div className='relative w-full max-w-2xl rounded-2xl p-6 shadow-2xl'>
                                 <SigninCompo redirect={'/find-space'} />
                             </div>
-                            : (session?.user as {role?: string})?.role !== "member" ?
+                            : (session?.user as { role?: string })?.role !== "member" ?
                                 <MemberOnlyModal setIsOpen={setIsOpen} returnTo={`/find-space/${workspaceId}`} />
 
                                 : <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-2xl">
@@ -70,7 +92,7 @@ export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay
 
                                         <form
                                             action={async (formData: FormData) => {
-                                                formData.set('workspaceId', workspaceId);
+
                                                 await onSubmitAction?.(formData);
                                                 setIsOpen(false);
                                             }}

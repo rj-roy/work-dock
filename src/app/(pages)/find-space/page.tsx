@@ -40,7 +40,7 @@ const FindSpaces = async ({ searchParams }: FindSpaceProps) => {
     const query = await searchParams;
     const params = new URLSearchParams(query);
 
-    const { data, headers } = await getDataByCollection<Workspace[]>(`/api/v1/get/workspace/query?${params.toString() ? `${params}` : ""}`);
+    const { data, headers } = await getDataByCollection<Workspace[]>(`/api/v1/workspace/get/query?${params.toString() ? `${params}` : ""}`);
     let approvedWorkspace = data ?? [];
 
     const activeCategory = query.category ?? "";

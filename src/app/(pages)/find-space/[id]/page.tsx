@@ -67,7 +67,7 @@ interface PageProps {
 export default async function WorkspaceDetailPage({ params }: PageProps) {
     const { id } = await params;
 
-    const selectedWorkspace = await getDataByCollection<Workspace>(`/api/v1/get/workspace/id/${id}`);
+    const selectedWorkspace = await getDataByCollection<Workspace>(`/api/v1/workspace/get/id/${id}`);
     const workspace = selectedWorkspace?.data;
 
     const reviews = await getReviews();
