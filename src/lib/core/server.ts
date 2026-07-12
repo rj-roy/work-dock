@@ -1,5 +1,5 @@
 import { ServerFetchResult, WorkSpaceResult } from "@/types/serverTypes";
-import { statusHandler } from "./statusHanler";
+import { statusHandler } from "./statusHandler";
 import { HTTPMethod } from "better-auth";
 
 const serverBase = process.env.SERVER_BASE!;

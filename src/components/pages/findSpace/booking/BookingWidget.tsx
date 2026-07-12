@@ -30,18 +30,18 @@ export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay
         const bookingData = Object.fromEntries(formData.entries());
 
         try {
+            if (!session) return router.push('/auth/signin');
             const booking = await patchAction(bookingData, '/api/v1/booking/create', 'member')
 
             if (booking.success === false) {
                 toast.error(booking.message)
                 return;
-            };
-
-            if (booking.success === true) {
+            } else if (booking.success === true) {
                 toast.success("Booking created successfully!");
                 await new Promise((resolve) => setTimeout(resolve, 2000));
                 router.push('/dashboard/member/bookings');
             };
+
         } catch (error) {
             toast.error(error instanceof Error ? error.message : "Something went wrong. Please try again.");
         };
