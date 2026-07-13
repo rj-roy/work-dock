@@ -1,5 +1,5 @@
-import { ServerFetchResult, WorkSpaceResult } from "@/types/serverTypes";
-import { statusHandler } from "./statusHandler";
+import { ApiResponse, WorkSpaceResult } from "@/types/serverTypes";
+import { handleStatus, statusHandler } from "./statusHandler";
 import { HTTPMethod } from "better-auth";
 
 const serverBase = process.env.SERVER_BASE!;
@@ -10,7 +10,7 @@ export const serverFetch = async <T>(path: string): Promise<WorkSpaceResult<T>> 
     // return res.json();
 };
 
-export const serverMutation = async <T>(path: string, data: unknown, method: HTTPMethod): Promise<ServerFetchResult<T>> => {
+export const serverMutation = async <T>(path: string, data: unknown, method: HTTPMethod): Promise<ApiResponse<T>> => {
     const res = await fetch(`${serverBase}${path}`, {
         method: method,
         headers: {
@@ -18,5 +18,5 @@ export const serverMutation = async <T>(path: string, data: unknown, method: HTT
         },
         body: JSON.stringify(data),
     });
-    return res.json();
+    return handleStatus(res);
 };

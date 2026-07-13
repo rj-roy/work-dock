@@ -5,7 +5,13 @@ export interface ServerFetchResult<T> {
     headers: Headers;
 };
 
-export interface WorkSpaceResult <T> {
+export interface WorkSpaceResult<T> {
     data: T | null;
     headers: Headers;
+};
+
+export interface ApiResponse<T> {
+    success: boolean;
+    message: string;
+    data: T | null;
 };

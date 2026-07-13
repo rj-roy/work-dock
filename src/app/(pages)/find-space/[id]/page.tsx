@@ -8,6 +8,7 @@ import WorkspaceReviews from "@/components/pages/findSpace/workspace/details/Wor
 import WorkspaceStats from "@/components/pages/findSpace/workspace/details/WorkSpaceStats";
 import { getDataByCollection } from "@/lib/api/getData";
 import { RelatedWorkspace, Review, Workspace } from "@/types/workspaceType";
+import { redirect } from "next/navigation";
 
 async function getReviews(): Promise<Review[]> {
     return [
@@ -66,6 +67,7 @@ interface PageProps {
 
 export default async function WorkspaceDetailPage({ params }: PageProps) {
     const { id } = await params;
+    if(id?.length < 20) return redirect('/find-space');
 
     const selectedWorkspace = await getDataByCollection<Workspace>(`/api/v1/workspace/get/id/${id}`);
     const workspace = selectedWorkspace?.data;

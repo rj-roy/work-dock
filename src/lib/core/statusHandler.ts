@@ -1,14 +1,12 @@
-import { WorkSpaceResult } from "@/types/serverTypes";
+import { ApiResponse, WorkSpaceResult } from "@/types/serverTypes";
 import { redirect } from "next/navigation";
 
 export const statusHandler = async <T>(res: Response): Promise<WorkSpaceResult<T>> => {
     switch (res.status) {
         case 401:
             redirect("/unauthorized");
-
         case 403:
             redirect("/forbidden");
-
         case 404:
             redirect("/not-found");
     };
@@ -17,15 +15,8 @@ export const statusHandler = async <T>(res: Response): Promise<WorkSpaceResult<T
     const text = await res.text();
 
     if (!res.ok) {
-        let errorMessage = "Something went wrong! Please try again later.";
-        try {
-            errorMessage = JSON.parse(text).message || errorMessage;
-        } catch {
-            // 
-        }
-        throw new Error(errorMessage);
+        throw new Error(JSON.parse(text).message || "Something went wrong! Please try again later.");
     };
-
     if (!text) {
         return { data: null, headers };
     };
@@ -35,4 +26,14 @@ export const statusHandler = async <T>(res: Response): Promise<WorkSpaceResult<T
     } catch {
         throw new Error("Invalid response from server");
     };
+};
+
+export const handleStatus = async <T>(res: Response): Promise<ApiResponse<T>> => {
+    const data: ApiResponse<T> = await res.json();
+
+    if (!res.ok) {
+        throw new Error(data.message || "Something went wrong");
+    };
+
+    return data;
 };
