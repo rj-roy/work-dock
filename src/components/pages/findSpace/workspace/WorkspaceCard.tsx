@@ -3,6 +3,7 @@ import { MapPin, Users, Star, Wifi, Coffee, Car, Wind, Printer, Monitor, Buildin
 import { Workspace } from '@/types/workspaceType';
 import Link from 'next/link';
 import BookingWidget from '../booking/BookingWidget';
+import ImageWithSkeleton from '@/components/ui/ImageSkeleton';
 
 const amenityIcons: Record<string, React.ReactNode> = {
     wifi: <Wifi className="w-4 h-4" />,
@@ -40,15 +41,15 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
             <div className="relative h-48 overflow-hidden">
                 <div className="absolute inset-0 flex animate-scroll-images">
                     {workspace.images.map((image, idx) => (
-                        <div key={idx} className="min-w-full h-full relative">
-                            <Image
-                                src={image || '/placeholder.jpg'}
+                        <div key={idx} className="relative min-w-full h-full">
+                            <ImageWithSkeleton
+                                src={image || "/placeholder.jpg"}
                                 alt={`${workspace.title} - Image ${idx + 1}`}
                                 fill
                                 className="object-cover"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                                priority={idx === 0}
                                 loading='eager'
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                // priority={idx === 0}
                             />
                         </div>
                     ))}
@@ -98,7 +99,7 @@ export default function WorkspaceCard({ workspace }: WorkspaceCardProps) {
                             {workspace.title}
                         </Link>
                         <Link href={`/find-space/${workspace._id}`}
-                        className='font-bold text-primary text-xl underline underline-offset-2'>
+                            className='font-bold text-primary text-xl underline underline-offset-2'>
                             View
                         </Link>
                     </div>

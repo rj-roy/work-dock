@@ -71,7 +71,7 @@ export default function ListNewSpace() {
         }));
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit: React.ComponentProps<"form">["onSubmit"] = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
 
@@ -97,6 +97,7 @@ export default function ListNewSpace() {
             const response = await postAction(submissionData, '/api/v1/workspace/create', 'host');
             if (response) {
                 toast.success('Space listed successfully!');
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 router.push('/dashboard/my-listing');
             };
         } catch (error) {

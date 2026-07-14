@@ -1,6 +1,6 @@
 export default function CardLoadingSkeleton() {
     return (
-        <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10">
             {/* Header Skeleton */}
             <div className="mb-8 space-y-3">
                 <div className="flex items-center gap-3">

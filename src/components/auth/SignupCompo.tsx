@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { User, Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { authClient } from '@/lib/auth-client';
 import logo from '@/assets/img/logo.png'
@@ -24,15 +24,19 @@ interface FormErrors {
     agreeToTerms?: string;
 }
 
-export default function SignupCompo() {
+interface Props {
+    redirect: string | undefined;
+}
+
+export default function SignupCompo({ redirect }: Props) {
     const [role, setRole] = useState<'member' | 'host'>('member');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const redirectTo = searchParams.get('redirect') || '/dashboard/profile';
+    // const searchParams = useSearchParams();
+    const redirectTo = redirect || '/dashboard/profile';
 
     const [formData, setFormData] = useState<FormData>({
         fullName: '',
@@ -123,7 +127,7 @@ export default function SignupCompo() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 py-12 transition-colors duration-300">
+        <div className="min-h-[80dvh] bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 py-12 transition-colors duration-300">
             <div className="w-full max-w-xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-300">
                 {/* Header */}
                 <div className="text-center mb-8">
