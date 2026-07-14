@@ -6,12 +6,12 @@ export const metadata: Metadata = {
     description: "Let's continue"
 };
 
-const SigninPage = () => {
+export default async function SigninPage({ searchParams, }: { searchParams: Promise<{ redirect?: string }>; }) {
+    const { redirect } = await searchParams;
+
     return (
         <div>
-            <SigninCompo redirect={'/dashboard/profile'}/>
+            <SigninCompo redirect={redirect} />
         </div>
     );
-};
-
-export default SigninPage;
+}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import logo from '@/assets/img/logo.png'
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
 import { toast } from 'react-toastify';
 
@@ -14,7 +14,7 @@ interface FormData {
 };
 
 interface Props {
-    redirect: string;
+    redirect: string | undefined;
 }
 
 export default function SigninCompo({redirect}: Props) {
@@ -24,8 +24,8 @@ export default function SigninCompo({redirect}: Props) {
     const [errors, setErrors] = useState<Partial<FormData>>({});
 
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const redirectTo = searchParams.get('redirect') || redirect;
+    // const searchParams = useSearchParams();
+    const redirectTo = redirect || '/';
 
     const [formData, setFormData] = useState<FormData>({
         email: '',
