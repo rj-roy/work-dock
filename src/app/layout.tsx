@@ -33,9 +33,9 @@ export default function RootLayout({ children, }:
         <ThemeProviderComponent>
           <ToastContainer/>
           <NavBar/>
-          <div>
+          <main className="flex-1">
             {children}
-          </div>
+          </main>
           <Footer/>
         </ThemeProviderComponent>
       </body>

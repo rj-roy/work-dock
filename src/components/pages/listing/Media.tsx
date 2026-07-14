@@ -1,8 +1,8 @@
 // components/listing/MediaSection.tsx
 'use client';
-
 import { useState, useRef } from 'react';
 import { Upload, Trash2, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 interface MediaSectionProps {
     imageUrls: string[];
@@ -17,23 +17,19 @@ export default function Media({ imageUrls, onImagesChange }: MediaSectionProps) 
     const uploadToCloudinary = async (file: File): Promise<string> => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'workdock');
-        formData.append('cloud_name', process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '');
 
-        const response = await fetch(
-            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-            {
-                method: 'POST',
-                body: formData,
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error('Upload failed');
-        }
+        const response = await fetch('/api/upload-space-image', {
+            method: 'POST',
+            body: formData,
+        });
 
         const data = await response.json();
-        return data.secure_url;
+
+        if (!response.ok || !data?.success) {
+            throw new Error(data?.message || 'Upload failed');
+        }
+
+        return data.secure_url || data.url;
     };
 
     const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,8 +82,8 @@ export default function Media({ imageUrls, onImagesChange }: MediaSectionProps) 
         <div className="space-y-4">
             <div
                 className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors cursor-pointer ${isUploading
-                        ? 'border-gray-300 dark:border-gray-700 cursor-not-allowed'
-                        : 'border-gray-300 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-600'
+                    ? 'border-gray-300 dark:border-gray-700 cursor-not-allowed'
+                    : 'border-gray-300 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-600'
                     }`}
                 onClick={() => !isUploading && fileInputRef.current?.click()}
             >
@@ -131,7 +127,10 @@ export default function Media({ imageUrls, onImagesChange }: MediaSectionProps) 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {imageUrls.map((url, index) => (
                         <div key={index} className="relative group rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800">
-                            <img
+                            <Image
+                                height={500}
+                                width={500}
+                                loading='eager'
                                 src={url}
                                 alt={`Upload ${index + 1}`}
                                 className="w-full h-32 object-cover"

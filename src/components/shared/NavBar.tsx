@@ -15,9 +15,7 @@ export default function NavBar() {
         { name: 'Find Space', href: '/find-space' },
         { name: 'Categories', href: '/categories' },
         { name: 'How it Works', href: '/about' },
-        ...((session?.user as { role?: string })?.role === "host"
-            ? [{ name: "Host a Space", href: "/host-a-space" }]
-            : [])
+        { name: "Host a Space", href: "/host-a-space" }
     ];
 
     const handleLogout = async () => {

@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import SigninCompo from '@/components/auth/SigninCompo';
-import MemberOnlyModal from './MemberOnlyModal';
 import { patchAction } from '@/lib/actions/patchActions';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import MemberOnlyModal from '@/components/modal/MemberOnlyModal';
 
 interface BookingModalProps {
     workspaceId: string;
