@@ -101,7 +101,6 @@ export default function SignupCompo({ redirect }: Props) {
             } else if (data) {
                 toast.success('Successfully created! Redirecting...')
                 await new Promise(resolve => setTimeout(resolve, 1500));
-                console.log('Registration data:', { role, ...formData });
                 router.push(redirectTo);
             };
 
