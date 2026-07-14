@@ -1,4 +1,3 @@
-// components/listing/MediaSection.tsx
 'use client';
 import { useState, useRef } from 'react';
 import { Upload, Trash2, Loader2 } from 'lucide-react';
@@ -44,17 +43,15 @@ export default function Media({ imageUrls, onImagesChange }: MediaSectionProps) 
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
 
-                    // Validate file type
                     if (!file.type.startsWith('image/')) {
                         alert(`File ${file.name} is not an image`);
                         continue;
-                    }
+                    };
 
-                    // Validate file size (10MB limit)
                     if (file.size > 10 * 1024 * 1024) {
                         alert(`File ${file.name} is too large. Max size is 10MB`);
                         continue;
-                    }
+                    };
 
                     try {
                         const url = await uploadToCloudinary(file);
@@ -63,14 +60,14 @@ export default function Media({ imageUrls, onImagesChange }: MediaSectionProps) 
                     } catch (error) {
                         console.error('Upload error:', error);
                         alert(`Failed to upload ${file.name}`);
-                    }
+                    };
                 }
 
                 onImagesChange([...imageUrls, ...uploadedUrls]);
             } finally {
                 setIsUploading(false);
                 setUploadProgress(0);
-            }
+            };
         }
     };
 

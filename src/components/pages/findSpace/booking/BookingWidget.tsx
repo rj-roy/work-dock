@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import SigninCompo from '@/components/auth/SigninCompo';
-import { patchAction } from '@/lib/actions/patchActions';
+import { postAction } from '@/lib/actions/postAction';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import MemberOnlyModal from '@/components/modal/MemberOnlyModal';
@@ -31,7 +31,7 @@ export default function BookingWidget({ workspaceId, workspaceTitle, pricePerDay
 
         try {
             if (!session) return router.push('/auth/signin');
-            const booking = await patchAction(bookingData, '/api/v1/booking/create', 'member')
+            const booking = await postAction(bookingData, '/api/v1/booking/create', 'member')
 
             if (booking.success === false) {
                 toast.error(booking.message)

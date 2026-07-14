@@ -1,9 +1,9 @@
 'use server'
 import { serverMutation } from "../core/server";
 import { getUserSession } from "../core/session";
-import { ServerFetchResult } from "@/types/serverTypes";
+import { ApiResponse } from "@/types/serverTypes";
 
-export const patchAction = async <T, B>(data: B, path: string, role: string): Promise<ServerFetchResult<T>> => {
+export const postAction = async <T, B>(data: B, path: string, role: string): Promise<ApiResponse<T>> => {
     const session = await getUserSession();
 
     if (!session?.user?.id || session?.user?.role !== role) {
