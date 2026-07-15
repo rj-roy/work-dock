@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function DashLayout({ children }: Readonly<{children: React.ReactNode}>) {
   return (
-    <div className="w-full max-w-7xl mx-auto flex bg-white-bg dark:bg-black-bg dark:text-gray-100 text-black">
+    <div className="w-full max-w-full mx-auto flex bg-white-bg dark:bg-black-bg dark:text-gray-100 text-black">
       <DashNav />
       <main className="flex-1 flex flex-col p-8 h-full">
         {children}
