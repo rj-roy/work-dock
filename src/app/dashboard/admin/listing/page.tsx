@@ -17,6 +17,7 @@ import {
     LayoutList
 } from 'lucide-react';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 // --- Types ---
 type ListingStatus = 'pending' | 'approved' | 'rejected';
@@ -140,11 +141,13 @@ export default function AdminListingsPage() {
     // Action handlers
     const handleStatusChange = (id: string, newStatus: ListingStatus) => {
         setListings(prev => prev.map(l => l.id === id ? { ...l, status: newStatus } : l));
+        toast.success("updated!");
     };
 
     const handleDelete = (id: string) => {
         if (confirm('Are you sure you want to delete this listing?')) {
             setListings(prev => prev.filter(l => l.id !== id));
+            toast.success("removed successfully");
         }
     };
 
