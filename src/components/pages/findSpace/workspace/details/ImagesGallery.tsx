@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import ImageWithSkeleton from '@/components/ui/ImageSkeleton';
 
 interface ImageGalleryProps {
   images: string[];
@@ -11,7 +11,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
       <div className="absolute inset-0 flex animate-scroll-gallery">
         {images.map((image, idx) => (
           <div key={idx} className="min-w-full h-full relative">
-            <Image
+            <ImageWithSkeleton
               src={image}
               alt={`${title} - Image ${idx + 1}`}
               fill

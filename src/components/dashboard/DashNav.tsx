@@ -27,10 +27,10 @@ const memberNavLinks: NavLink[] = [
 ];
 
 const hostNavLinks: NavLink[] = [
-    { icon: Home, href: '/spaces', label: 'Explore Spaces' },
-    { icon: Plus, href: '/spaces/add', label: 'Add Space' },
-    { icon: Building2, href: '/spaces/manage', label: 'Manage Spaces' },
-    { icon: LayoutDashboard, href: '/dashboard/host', label: 'Dashboard' },
+    { icon: LayoutDashboard, href: '/dashboard/host', label: 'Overview' },
+    { icon: Home, href: '/find-space', label: 'Explore Spaces' },
+    { icon: Plus, href: '/host-a-space', label: 'Add Space' },
+    { icon: Building2, href: '/dashboard/host/manage-space', label: 'Manage Spaces' },
     { icon: User, href: '/dashboard/profile', label: 'Profile' },
 ];
 
@@ -39,7 +39,7 @@ const adminNavLinks: NavLink[] = [
     { icon: FileText, href: '/dashboard/admin/listing', label: 'Listings' },
     { icon: Users, href: '/dashboard/admin/users', label: 'Manage Users' },
     { icon: MessageSquare, href: '/dashboard/admin/reviews', label: 'Manage Reviews' },
-    { icon: Settings, href: '/dashboard/admin/settings', label: 'Settings' },
+    { icon: Settings, href: '/dashboard/profile', label: 'Profile' },
 ];
 
 const navLinksMap: Record<UserRole, NavLink[]> = {

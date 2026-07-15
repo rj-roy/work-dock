@@ -13,7 +13,7 @@ export default function NavBar() {
 
     const navLinks: { name: string; href: string }[] = [
         { name: 'Find Space', href: '/find-space' },
-        { name: 'Categories', href: '/categories' },
+        // { name: 'Categories', href: '/categories' },
         { name: "Host a Space", href: "/host-a-space" },
         { name: 'How it Works', href: '/about' },
         { name: 'Contact', href: '/contact' },

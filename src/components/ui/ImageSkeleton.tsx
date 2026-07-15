@@ -11,8 +11,8 @@ export default function ImageWithSkeleton(props: Props) {
     return (
         <>
             {!loaded && (
-                <div className="absolute inset-0 overflow-hidden rounded-md bg-primary/50 dark:bg-gray-800">
-                    <div className="h-full w-full animate-pulse bg-linear-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800" />
+                <div className="absolute inset-0 overflow-hidden rounded-md bg-primary/80 dark:bg-gray-800">
+                    <div className="h-full w-full animate-pulse bg-linear-to-r from-primary via-gray-100 to-secondary dark:from-gray-800 dark:via-gray-700 dark:to-gray-800" />
                 </div>
             )}
 
