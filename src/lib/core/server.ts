@@ -18,5 +18,6 @@ export const serverMutation = async <T>(path: string, data: unknown, method: HTT
         },
         body: JSON.stringify(data),
     });
-    return handleStatus(res);
+
+    return handleStatus<T>(res);
 };
