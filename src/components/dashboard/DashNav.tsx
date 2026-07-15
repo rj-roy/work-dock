@@ -36,7 +36,7 @@ const hostNavLinks: NavLink[] = [
 
 const adminNavLinks: NavLink[] = [
     { icon: LayoutDashboard, href: '/dashboard/admin', label: 'Overview' },
-    { icon: FileText, href: '/dashboard/admin/spaces', label: 'Approve Listings' },
+    { icon: FileText, href: '/dashboard/admin/listing', label: 'Listings' },
     { icon: Users, href: '/dashboard/admin/users', label: 'Manage Users' },
     { icon: MessageSquare, href: '/dashboard/admin/reviews', label: 'Manage Reviews' },
     { icon: Settings, href: '/dashboard/admin/settings', label: 'Settings' },

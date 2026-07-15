@@ -1,6 +1,3 @@
-// app/dashboard/admin/page.tsx
-'use client';
-
 import {
     LayoutDashboard,
     Building2,
