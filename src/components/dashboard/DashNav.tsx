@@ -21,8 +21,8 @@ type DashboardSessionUser = {
 
 const memberNavLinks: NavLink[] = [
     { icon: Home, href: '/spaces', label: 'Explore Spaces' },
-    { icon: Star, href: '/dashboard/reviews', label: 'My Reviews' },
-    { icon: Heart, href: '/dashboard/favorites', label: 'Favorites' },
+    { icon: Star, href: '/dashboard/member/reviews', label: 'My Reviews' },
+    { icon: Heart, href: '/dashboard/member/favorites', label: 'Favorites' },
     { icon: User, href: '/dashboard/profile', label: 'Profile' },
 ];
 

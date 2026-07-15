@@ -11,7 +11,7 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="bg-linear-to-b from-indigo-50/50 to-white dark:from-gray-900 dark:to-gray-800 border-t border-indigo-100 dark:border-gray-700 transition-colors duration-300">
+        <footer className="z-999999 bg-linear-to-b from-indigo-50/50 to-white dark:from-gray-900 dark:to-gray-800 border-t border-indigo-100 dark:border-gray-700 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="py-8 md:py-12">
                     {/* Main Footer Content */}
